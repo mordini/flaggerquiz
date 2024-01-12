@@ -41,6 +41,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['3', '12', '6', '82'],
           correctAnswer: '6',
+          isRequired: true,
         },
       ],
     },
@@ -53,6 +54,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['82', '16', '10', '35'],
           correctAnswer: '10',
+          isRequired: true,
         },
       ],
     },
@@ -66,6 +68,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['82', '16', '10', '35'],
           correctAnswer: '10',
+          isRequired: true,
         },
       ],
     },
@@ -78,6 +81,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['82', '9', '10', '35'],
           correctAnswer: '9',
+          isRequired: true,
         },
       ],
     },
@@ -91,6 +95,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['82', '16', '10', '20'],
           correctAnswer: '20',
+          isRequired: true,
         },
       ],
     },
@@ -103,6 +108,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['82', '9', '10', '12'],
           correctAnswer: '12',
+          isRequired: true,
         },
       ],
     },
@@ -116,6 +122,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['82', '16', '10', '20'],
           correctAnswer: '20',
+          isRequired: true,
         },
       ],
     },
@@ -128,6 +135,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['1,000', '500', '350', '200'],
           correctAnswer: '200',
+          isRequired: true,
         },
       ],
     },
@@ -140,6 +148,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['1,000', '500', '350', '200'],
           correctAnswer: '350',
+          isRequired: true,
         },
       ],
     },
@@ -152,6 +161,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['1,000', '500', '350', '200'],
           correctAnswer: '500',
+          isRequired: true,
         },
       ],
     },
@@ -165,6 +175,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['1,000', '500', '350', '200'],
           correctAnswer: '500',
+          isRequired: true,
         },
       ],
     },
@@ -182,6 +193,7 @@ const surveyJson = {
             'Lane Shift Ahead',
           ],
           correctAnswer: 'One Lane Road Ahead',
+          isRequired: true,
         },
       ],
     },
@@ -199,6 +211,7 @@ const surveyJson = {
             'Lane Shift Ahead',
           ],
           correctAnswer: 'Be Prepared To Stop',
+          isRequired: true,
         },
       ],
     },
@@ -216,6 +229,7 @@ const surveyJson = {
             'Lane Shift Ahead',
           ],
           correctAnswer: 'Flagging Symbol',
+          isRequired: true,
         },
       ],
     },
@@ -233,6 +247,7 @@ const surveyJson = {
             'Road Work Ahead',
           ],
           correctAnswer: 'Road Work Ahead',
+          isRequired: true,
         },
       ],
     },
@@ -250,6 +265,7 @@ const surveyJson = {
             'Road Work Ahead',
           ],
           correctAnswer: 'Road Closed Ahead',
+          isRequired: true,
         },
       ],
     },
@@ -267,6 +283,7 @@ const surveyJson = {
             'Road Work Ahead',
           ],
           correctAnswer: 'Road Closed',
+          isRequired: true,
         },
       ],
     },
@@ -279,6 +296,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['11', '15', '35', '7'],
           correctAnswer: '7',
+          isRequired: true,
         },
       ],
     },
@@ -291,6 +309,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['11', '15', '35', '14'],
           correctAnswer: '14',
+          isRequired: true,
         },
       ],
     },
@@ -303,6 +322,7 @@ const surveyJson = {
           choicesOrder: 'random',
           choices: ['11', '17', '55', '7'],
           correctAnswer: '17',
+          isRequired: true,
         },
       ],
     },
@@ -320,6 +340,7 @@ const surveyJson = {
             'Right Lane Closed',
           ],
           correctAnswer: 'Right Lane Closed Ahead',
+          isRequired: true,
         },
       ],
     },
@@ -337,6 +358,7 @@ const surveyJson = {
             'Right Lane Closed',
           ],
           correctAnswer: 'Merge Symbol',
+          isRequired: true,
         },
       ],
     },
@@ -354,6 +376,7 @@ const surveyJson = {
             'Right Lane Closed',
           ],
           correctAnswer: 'Right Lane Closed',
+          isRequired: true,
         },
       ],
     },
@@ -371,6 +394,7 @@ const surveyJson = {
             'One Lane Road Ahead',
           ],
           correctAnswer: 'Road Work Ahead',
+          isRequired: true,
         },
       ],
     },
@@ -388,6 +412,7 @@ const surveyJson = {
             'One Lane Road Ahead',
           ],
           correctAnswer: 'Shoulder Closed Ahead',
+          isRequired: true,
         },
       ],
     },
@@ -405,6 +430,7 @@ const surveyJson = {
             'One Lane Road Ahead',
           ],
           correctAnswer: 'Shoulder Closed',
+          isRequired: true,
         },
       ],
     },
@@ -423,6 +449,7 @@ const surveyJson = {
           ],
           correctAnswer:
             'Flagging, Road Closed, Shoulder, Lane Shift, Arrow Board',
+          isRequired: true,
         },
       ],
     },
@@ -440,6 +467,7 @@ const surveyJson = {
             'Lane Shift Ahead',
           ],
           correctAnswer: 'Road Work Ahead',
+          isRequired: true,
         },
       ],
     },
@@ -457,6 +485,7 @@ const surveyJson = {
             'Lane Shift Ahead',
           ],
           correctAnswer: 'Lane Shift Ahead',
+          isRequired: true,
         },
       ],
     },
@@ -474,6 +503,7 @@ const surveyJson = {
             'Lane Shift Ahead',
           ],
           correctAnswer: 'Lane Shift Symbol',
+          isRequired: true,
         },
       ],
     },
@@ -520,8 +550,55 @@ function shufflePages() {
 // THIS IS OUTSIDE OF A LIFECYCLE HOOK TO RUN BEFORE CREATING survey model
 if (surveyJson.pageOrderRandom) shufflePages();
 
-// MAKE THAT SURVEY
+// MAKE THAT SURVEY NOW THAT WE HANDLED SHUFFLING OR NOT
 const survey = new Model(surveyJson);
+
+/**********************/
+/* SESSION MANAGEMENT */
+/**********************/
+
+// KEY FOR LOCAL STORAGE
+const storageItemKey = 'flagger-survey';
+
+// FUNCTION TO SAVE THE SURVEY DATA
+function saveSurveyData(survey) {
+  // HOLD THE DATA
+  const data = survey.data;
+
+  // SET THE CURRENT PAGE NUMBER
+  data.pageNo = survey.currentPageNo;
+
+  // PUT IN LOCALSTORAGE
+  window.localStorage.setItem(storageItemKey, JSON.stringify(data));
+}
+
+// SAVE SURVEY RESULTS TO LOCAL STORAGE WHEN WE CHANGE THINGS
+survey.onValueChanged.add(saveSurveyData);
+survey.onCurrentPageChanged.add(saveSurveyData);
+
+// RESTORE SURVEY RESULTS
+const prevData = window.localStorage.getItem(storageItemKey) || null;
+
+// IF THERE IS PREVIOUS DATA
+if (prevData) {
+  // GET THE PREVIOUS DATA
+  const data = JSON.parse(prevData);
+
+  // PUT IT INTO THE SURVEY, WHERE WE ARE
+  survey.data = data;
+
+  // IF THERE IS PREVIOUS DATA
+  if (data.pageNo) {
+    // PUT IT INTO THE SURVEY, WHERE WE ARE
+    survey.currentPageNo = data.pageNo;
+  }
+}
+
+// EMPTY LOCAL STORAGE AFTER FINISHING SURVEY
+survey.onComplete.add(() => window.localStorage.setItem(storageItemKey, ''));
+
+// RESTORE SESSION FOR PERSON WITH NAME MAYBE
+// DO THIS LATER
 </script>
 
 <template>
