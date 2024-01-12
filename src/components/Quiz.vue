@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import 'survey-core/defaultV2.min.css';
 import { Model } from 'survey-core';
+import { onBeforeMount } from 'vue';
 
+// SET UP THE SURVEY
 const surveyJson = {
   title: 'Flagging Knowledge',
   showProgressBar: 'bottom',
@@ -10,6 +12,9 @@ const surveyJson = {
   maxTimeToFinish: 0,
   firstPageIsStarted: true,
   questionsOrder: 'random',
+
+  // NOT A NATIVE PROPERTY, ADDED ENHANCEMENT FOR RANDOMIZING PAGE ORDER
+  pageOrderRandom: true,
   startSurveyText: 'Start Quiz',
   pages: [
     {
@@ -493,18 +498,24 @@ const shuffleArray = (arr) =>
     .sort((a, b) => a[0] - b[0])
     .map((a) => a[1]);
 
-// GET THE FIRST PAGE FOR REINSERTION
-const firstPage = surveyJson.pages[0];
+// FUNCTION TO SHUFFLE THE PAGES IF THE PROPERTY IS SET
+function shufflePages() {
+  console.warn(`SHUFFLING PAGES`);
+  // GET THE FIRST PAGE FOR REINSERTION
+  const firstPage = surveyJson.pages[0];
+  // REMOVE FIRST PAGE
+  surveyJson.pages.shift();
+  // RANDOMIZE surveyJson.pages
+  surveyJson.pages = shuffleArray(surveyJson.pages);
+  // REINSERT THE FIRST PAGE
+  surveyJson.pages.unshift(firstPage);
+}
 
-// REMOVE FIRST PAGE
-surveyJson.pages.shift();
+// CHECK TO SEE IF WE NEED TO SHUFFLE PAGES AND DO SO IF NEEDED
+// THIS IS OUTSIDE OF A LIFECYCLE HOOK TO RUN BEFORE CREATING survey model
+if (surveyJson.pageOrderRandom) shufflePages();
 
-// RANDOMIZE surveyJson.pages
-surveyJson.pages = shuffleArray(surveyJson.pages);
-
-// REINSERT THE FIRST PAGE
-surveyJson.pages.unshift(firstPage);
-
+// MAKE THAT SURVEY
 const survey = new Model(surveyJson);
 </script>
 
