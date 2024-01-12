@@ -15,6 +15,7 @@ const surveyJson = {
 
   // NOT A NATIVE PROPERTY, ADDED ENHANCEMENT FOR RANDOMIZING PAGE ORDER
   pageOrderRandom: true,
+
   startSurveyText: 'Start Quiz',
   pages: [
     {
