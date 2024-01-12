@@ -501,12 +501,16 @@ const shuffleArray = (arr) =>
 // FUNCTION TO SHUFFLE THE PAGES IF THE PROPERTY IS SET
 function shufflePages() {
   console.warn(`SHUFFLING PAGES`);
+
   // GET THE FIRST PAGE FOR REINSERTION
   const firstPage = surveyJson.pages[0];
+
   // REMOVE FIRST PAGE
   surveyJson.pages.shift();
+
   // RANDOMIZE surveyJson.pages
   surveyJson.pages = shuffleArray(surveyJson.pages);
+
   // REINSERT THE FIRST PAGE
   surveyJson.pages.unshift(firstPage);
 }
