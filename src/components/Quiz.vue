@@ -603,19 +603,19 @@ if (prevData) {
 }
 
 // FUNCTION TO HIDE OR SHOW THE RESET BUTTON
-function hideResetButton(doHide) {
+function hideResetButton(doHide: boolean) {
   // GET THE RESET BUTTON
   const resetButton = document.querySelectorAll(
     '#sv-nav-reset-quiz'
-  )[0] as NodeListOf<HTMLDivElement>;
+  ) as NodeListOf<HTMLDivElement>;
 
   // CHECK IF WE NEED TO HIDE OR NOT
   if (doHide) {
     console.warn(`HIDE RESET BUTTON`);
-    resetButton.classList.add('hideElement');
+    resetButton[0].classList.add('hideElement');
   } else {
     console.warn(`SHOW RESET BUTTON`);
-    resetButton.classList.remove('hideElement');
+    resetButton[0].classList.remove('hideElement');
   }
 }
 
