@@ -4,8 +4,8 @@ import { Model } from 'survey-core';
 import { onBeforeMount } from 'vue';
 
 // SET UP THE SURVEY
-const surveyJson = {
-  title: 'Flagging Knowledge',
+const quizJson = {
+  title: 'Flagging Quiz',
   showProgressBar: 'bottom',
   showTimerPanel: 'top',
   maxTimeToFinishPage: 0,
@@ -14,15 +14,16 @@ const surveyJson = {
   questionsOrder: 'random',
 
   // NOT A NATIVE PROPERTY, ADDED ENHANCEMENT FOR RANDOMIZING PAGE ORDER
-  pageOrderRandom: true,
+  randomPageOrder: true,
 
   startSurveyText: 'Start Quiz',
+  firstPageIsStarted: true,
   pages: [
     {
       elements: [
         {
           type: 'html',
-          html: 'You are about to start a quiz on Flagging. <br>You will have 10 seconds for every question and 25 seconds to end the quiz.<br>Enter your name below and click <b>Start Quiz</b> to begin.',
+          html: 'You are about to start a quiz on Flagging. <br/><br/>You will have 10 seconds for every question and 25 seconds to end the quiz.<br/><br/>Enter your name and click <b>Start Quiz</b> to begin. <br/><br/> NOTE:  If you started this quiz before and did not finish, your previous answers will be restored, but the questions may be in a different order.',
         },
         {
           type: 'text',
@@ -523,35 +524,35 @@ const surveyJson = {
 };
 
 // FUNCTION TO RANDOMIZE ARRAY
-const shuffleArray = (arr) =>
+const shuffleArray = (arr: any) =>
   arr
-    .map((a) => [Math.random(), a])
-    .sort((a, b) => a[0] - b[0])
-    .map((a) => a[1]);
+    .map((a: any) => [Math.random(), a])
+    .sort((a: any, b: any) => a[0] - b[0])
+    .map((a: any) => a[1]);
 
 // FUNCTION TO SHUFFLE THE PAGES IF THE PROPERTY IS SET
 function shufflePages() {
   console.warn(`SHUFFLING PAGES`);
 
   // GET THE FIRST PAGE FOR REINSERTION
-  const firstPage = surveyJson.pages[0];
+  const firstPage = quizJson.pages[0];
 
   // REMOVE FIRST PAGE
-  surveyJson.pages.shift();
+  quizJson.pages.shift();
 
-  // RANDOMIZE surveyJson.pages
-  surveyJson.pages = shuffleArray(surveyJson.pages);
+  // RANDOMIZE quizJson.pages
+  quizJson.pages = shuffleArray(quizJson.pages);
 
   // REINSERT THE FIRST PAGE
-  surveyJson.pages.unshift(firstPage);
+  quizJson.pages.unshift(firstPage);
 }
 
 // CHECK TO SEE IF WE NEED TO SHUFFLE PAGES AND DO SO IF NEEDED
 // THIS IS OUTSIDE OF A LIFECYCLE HOOK TO RUN BEFORE CREATING survey model
-if (surveyJson.pageOrderRandom) shufflePages();
+if (quizJson.randomPageOrder) shufflePages();
 
 // MAKE THAT SURVEY NOW THAT WE HANDLED SHUFFLING OR NOT
-const survey = new Model(surveyJson);
+const survey = new Model(quizJson);
 
 /**********************/
 /* SESSION MANAGEMENT */
@@ -561,7 +562,7 @@ const survey = new Model(surveyJson);
 const storageItemKey = 'flagger-survey';
 
 // FUNCTION TO SAVE THE SURVEY DATA
-function saveSurveyData(survey) {
+function saveSurveyData(survey: any) {
   // HOLD THE DATA
   const data = survey.data;
 
@@ -576,6 +577,19 @@ function saveSurveyData(survey) {
 survey.onValueChanged.add(saveSurveyData);
 survey.onCurrentPageChanged.add(saveSurveyData);
 
+// GET RID OF THE RESET BUTTON AFTER QUIZ STARTS
+survey.onStarted.add(() => {
+  // WAIT FOR THE PAGE TO RENDER BEFORE HIDING
+  survey.onAfterRenderPage.add(() => {
+    console.warn(`HIDE RESET BUTTON`);
+
+    // GET RESET BUTTON
+    const resetButton = document.querySelectorAll('#sv-nav-reset-quiz');
+    // GET RID OF THE RESET BUTTON
+    resetButton[0].style.display = 'none';
+  });
+});
+
 // RESTORE SURVEY RESULTS
 const prevData = window.localStorage.getItem(storageItemKey) || null;
 
@@ -584,18 +598,40 @@ if (prevData) {
   // GET THE PREVIOUS DATA
   const data = JSON.parse(prevData);
 
-  // PUT IT INTO THE SURVEY, WHERE WE ARE
+  // PUT THE DATA BACK
   survey.data = data;
 
   // IF THERE IS PREVIOUS DATA
-  if (data.pageNo) {
-    // PUT IT INTO THE SURVEY, WHERE WE ARE
+  if (data.pageNo && !quizJson.randomPageOrder) {
+    // NAVIGATE TO THE LAST PAGE (NOT GREAT)
     survey.currentPageNo = data.pageNo;
   }
 }
 
+// FUNCTION TO RESET QUIZ
+function resetQuiz() {
+  console.warn(`RESETTING QUIZ`);
+  survey.clear();
+  window.localStorage.removeItem(storageItemKey);
+}
+
+survey.addNavigationItem({
+  id: 'sv-nav-reset-quiz',
+  title: 'Reset Quiz',
+
+  // CLEAR THE LOCAL STORAGE OF QUIZ STUFF
+  action: () => {
+    resetQuiz();
+    // window.localStorage.removeItem(storageItemKey);
+    // window.localStorage.setItem(storageItemKey, '');
+  },
+  css: 'nav-button',
+  innerCss: 'sd-btn nav-input',
+});
+
 // EMPTY LOCAL STORAGE AFTER FINISHING SURVEY
-survey.onComplete.add(() => window.localStorage.setItem(storageItemKey, ''));
+// survey.onComplete.add(() => window.localStorage.setItem(storageItemKey, ''));
+survey.onComplete.add(() => resetQuiz());
 
 // RESTORE SESSION FOR PERSON WITH NAME MAYBE
 // DO THIS LATER
