@@ -22,7 +22,7 @@ const quizJson = {
       elements: [
         {
           type: 'html',
-          html: 'You are about to start a quiz on Flagging. <br/><br/>You will have 10 seconds for every question and 25 seconds to end the quiz.<br/><br/>Enter your name and click <b>Start Quiz</b> to begin. <br/><br/> NOTE:  If you started this quiz before and did not finish, your previous answers will be restored, but the questions may be in a different order.',
+          html: 'You are about to start a quiz on Flagging. <br/><br/>Enter your name and click <b>Start Quiz</b> to begin. <br/><br/> NOTE:  If you started this quiz before and did not finish, your previous answers will be restored, but the questions may be in a different order.',
         },
         {
           type: 'text',
@@ -509,15 +509,15 @@ const quizJson = {
     },
   ],
   completedHtml:
-    '<h4>You got <b>{correctAnswers}</b> out of <b>{questionCount}</b> correct answers.</h4>',
+    '<h4>You got <b>{correctAnswers}</b> out of <b>{questionCount}</b> correct answers.</h4><br/><br/><button onclick="location.reload()">Go To Beginning</button>',
   completedHtmlOnCondition: [
     {
       expression: '{correctAnswers} == 0',
-      html: '<h4>Unfortunately, none of your answers are correct. Please try again.</h4>',
+      html: '<h4>Unfortunately, none of your answers are correct. Please try again.</h4><br/><br/><button onclick="location.reload()">Go To Beginning</button>',
     },
     {
       expression: '{correctAnswers} == {questionCount}',
-      html: '<h4>Congratulations! You answered all the questions correctly!</h4>',
+      html: '<h4>Congratulations! You answered all the questions correctly!</h4><br/><br/><button onclick="location.reload()">Go To Beginning</button>',
     },
   ],
 };
@@ -580,15 +580,7 @@ survey.onCurrentPageChanged.add(saveSurveyData);
 survey.onStarted.add(() => {
   // WAIT FOR THE PAGE TO RENDER BEFORE HIDING
   survey.onAfterRenderPage.add(() => {
-    console.warn(`HIDE RESET BUTTON`);
-
-    const resetButton = document.querySelectorAll(
-      '#sv-nav-reset-quiz'
-    ) as NodeListOf<HTMLDivElement>;
-    // GET RESET BUTTON
-    // const resetButton = document.querySelectorAll('#sv-nav-reset-quiz');
-    // GET RID OF THE RESET BUTTON
-    resetButton[0].style.display = 'none';
+    hideResetButton(true);
   });
 });
 
@@ -610,6 +602,23 @@ if (prevData) {
   }
 }
 
+// FUNCTION TO HIDE OR SHOW THE RESET BUTTON
+function hideResetButton(doHide) {
+  // GET THE RESET BUTTON
+  const resetButton = document.querySelectorAll(
+    '#sv-nav-reset-quiz'
+  )[0] as NodeListOf<HTMLDivElement>;
+
+  // CHECK IF WE NEED TO HIDE OR NOT
+  if (doHide) {
+    console.warn(`HIDE RESET BUTTON`);
+    resetButton.classList.add('hideElement');
+  } else {
+    console.warn(`SHOW RESET BUTTON`);
+    resetButton.classList.remove('hideElement');
+  }
+}
+
 // FUNCTION TO RESET QUIZ
 function resetQuiz() {
   console.warn(`RESETTING QUIZ`);
@@ -619,7 +628,7 @@ function resetQuiz() {
 
 survey.addNavigationItem({
   id: 'sv-nav-reset-quiz',
-  title: 'Reset Quiz',
+  title: 'Clear Previous Answers',
 
   // CLEAR THE LOCAL STORAGE OF QUIZ STUFF
   action: () => {
@@ -633,7 +642,8 @@ survey.addNavigationItem({
 
 // EMPTY LOCAL STORAGE AFTER FINISHING SURVEY
 // survey.onComplete.add(() => window.localStorage.setItem(storageItemKey, ''));
-survey.onComplete.add(() => resetQuiz());
+// survey.onComplete.add(() => resetQuiz());
+// survey.onComplete.add(() => hideResetButton(false));
 
 // RESTORE SESSION FOR PERSON WITH NAME MAYBE
 // DO THIS LATER
@@ -642,3 +652,9 @@ survey.onComplete.add(() => resetQuiz());
 <template>
   <SurveyComponent :model="survey" />
 </template>
+
+<style>
+.hideElement {
+  display: none;
+}
+</style>
