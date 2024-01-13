@@ -17,7 +17,6 @@ const quizJson = {
   randomPageOrder: true,
 
   startSurveyText: 'Start Quiz',
-  firstPageIsStarted: true,
   pages: [
     {
       elements: [
@@ -583,8 +582,11 @@ survey.onStarted.add(() => {
   survey.onAfterRenderPage.add(() => {
     console.warn(`HIDE RESET BUTTON`);
 
+    const resetButton = document.querySelectorAll(
+      '#sv-nav-reset-quiz'
+    ) as NodeListOf<HTMLDivElement>;
     // GET RESET BUTTON
-    const resetButton = document.querySelectorAll('#sv-nav-reset-quiz');
+    // const resetButton = document.querySelectorAll('#sv-nav-reset-quiz');
     // GET RID OF THE RESET BUTTON
     resetButton[0].style.display = 'none';
   });
